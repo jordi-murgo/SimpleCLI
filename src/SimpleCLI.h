@@ -37,6 +37,8 @@ class SimpleCLI {
         SimpleCLI(int commandQueueSize = 10, int errorQueueSize = 10);
         ~SimpleCLI();
 
+        String getFormattedHelp();
+        
         void pause();
         void unpause();
 

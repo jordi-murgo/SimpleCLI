@@ -20,6 +20,50 @@ SimpleCLI::~SimpleCLI() {
     cmd_error_destroy_rec(errorQueue);
 }
 
+/**
+ * @brief Get the Formatted Help object
+ * 
+ * @return String 
+ */
+String SimpleCLI::getFormattedHelp()
+{
+    String output = "Available commands:\n";
+    cmd *current = cmdList;
+
+    while (current != NULL)
+    {
+        output += " " + String(current->name);
+
+        // Add arguments if any
+        arg *currentArg = current->arg_list;
+        while (currentArg != NULL)
+        {
+            if(currentArg->name != NULL) {
+                output += " [-" + String(currentArg->name);
+                if(currentArg->default_val != NULL)
+                    output += " <" + String(currentArg->default_val) + ">";
+                output += "]";
+            } else {
+                output += " <argument>";
+            }
+            currentArg = currentArg->next;
+        }
+
+        output += "\n";
+
+        // Add description if available
+        if (current->description)
+        {
+            output += "   " + String(current->description) + "\n";
+        }
+
+        current = current->next;
+    }
+
+    return output;
+}
+
+
 void SimpleCLI::pause() {
     pauseParsing = true;
 }
